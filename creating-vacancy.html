@@ -10,74 +10,51 @@
         body {
             margin: 0;
             padding: 0;
+            min-width: 100%;
         }
 
         .main {
             display: flex;
             flex-direction: column;
-            margin: 0 auto;
-            padding: 20px;
-            max-width: 400px;
-        }
-
-        .offers__title {
-            display: flex;
-            flex-direction: column;
-            margin: 0 auto;
-            gap: 5px;
-        }
-
-        .type-publication {
-            margin: 0 auto;
-            height: 50px;
-        }
-
-        .emotion {
-            position: relative;
-            font-size: 14px;
-
-            display: flex;
-            opacity: 0;
-            justify-content: center;
             align-items: center;
-            width: 100%;
-            height: 50px;
-            z-index: 2;
-
-            border: none;
-            background: none;
-            border-radius: 15px;
-
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease-in;
+            padding: 20px;
         }
 
-        .emotion.--active {
-            background: #D9D9D9;
-            opacity: 1;
-        }
-
-        .emotion.--choice {
-            opacity: 1;
-        }
-
-        .link {
+        #offers {
             display: flex;
             flex-direction: column;
-            margin: 0 auto;
+            align-items: center;
+            width: 400px;
             gap: 5px;
-            box-sizing: border-box;
-
-            height: 50px;
         }
 
-        .link__block {
+
+
+        #type-publication {
+            position: relative;
+            z-index: 3;
+            height: 50px;
+            width: 100%;
+        }
+
+        #-level {
             display: none;
+
+            position: relative;
+            z-index: 2;
+            height: 50px;
+            width: 100%;
+        }
+
+        .text-block {
+            display: none;
+
             padding: 10px;
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
             box-sizing: border-box;
             height: 50px;
+            width: 100%;
             justify-content: center;
             align-items: center;
 
@@ -86,25 +63,57 @@
             border-radius: 15px;
         }
 
-        .link__block:focus-visible {
+        .text-block:focus-visible {
             outline: none;
         }
 
-        .vacancy-internship .link__block.level {
-            display: flex;
+        .vacancy-internship #-level,
+        .vacancy-internship .-job-title {
+            display: block;
         }
 
-        .vacancy-internship .link__block.job-title {
-            display: flex;
+        .internship-program .-title,
+        .educational-program .-title {
+            display: block;
         }
 
-        .internship-program .link__block.title,
-        .educational-program .link__block.title {
-            display: flex;
+        .-company,
+        .-link {
+            display: block;
+        }
+    </style>
+
+    <style class="drop-down-list">
+        .--select {
+            position: relative;
+            z-index: 2;
         }
 
-        .link__block.company {
+        .--element {
+            position: relative;
+
             display: flex;
+            flex-direction: column;
+            opacity: 0;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+
+            border: none;
+            background: none;
+            border-radius: 15px;
+
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease-in;
+        }
+
+        .--element.--active {
+            background: #D9D9D9;
+            opacity: 1;
+        }
+
+        .--element.--choice {
+            opacity: 1;
         }
     </style>
 </head>
@@ -112,21 +121,31 @@
 <body>
     <main class="main">
         <section id='offers' class="vacancy-internship">
-            <div class="offers__title">
-                <div class="type-publication">
-                    <button class="emotion --active" onclick="changeTypePublication(this)">💼 -
-                        Вакансия/стажировка</button>
-                    <button class="emotion" onclick="changeTypePublication(this)">🎟️ - Стажерская программа</button>
-                    <button class="emotion" onclick="changeTypePublication(this)">🎓 - Образовательная
-                        программа</button>
-                </div>
-                <div class="link">
-                    <input class="link__block level" type="text" placeholder="Уровень">
-                    <input class="link__block job-title" type="text" placeholder="Название вакансии">
-                    <input class="link__block title" type="text" placeholder="Название">
-                    <input class="link__block company" type="text" placeholder="Компания">
-                </div>
+            <div id="type-publication" class="--select">
+                <button class="emotion --element --active" onclick="typePublication.update(this)" value="0">💼
+                    - Вакансия/стажировка</button>
+                <button class="emotion --element" onclick="typePublication.update(this)" value="1">🎟️ - Стажерская
+                    программа</button>
+                <button class="emotion --element" onclick="typePublication.update(this)" value="2">🎓 -
+                    Образовательная
+                    программа</button>
             </div>
+            <div id="-level" class="--select">
+                <button class="-level__element --element --active" onclick="level.update(this)"
+                    value="-1">Уровень</button>
+                <button class="-level__element --element" onclick="level.update(this)" value="0">Assistant</button>
+                <button class="-level__element --element" onclick="level.update(this)" value="1">Intern</button>
+                <button class="-level__element --element" onclick="level.update(this)" value="2">Junior</button>
+                <button class="-level__element --element" onclick="level.update(this)" value="3">Middle</button>
+                <button class="-level__element --element" onclick="level.update(this)" value="4">Senior</button>
+                <button class="-level__element --element" onclick="level.update(this)" value="5">Lead</button>
+                <button class="-level__element --element" onclick="level.update(this)" value="6">Head</button>
+                <button class="-level__element --element" onclick="level.update(this)" value="7">Chief</button>
+            </div>
+            <input class="text-block -job-title" type="text" placeholder="Название вакансии">
+            <input class="text-block -title" type="text" placeholder="Название">
+            <input class="text-block -company" type="text" placeholder="Компания">
+            <input class="text-block -link" type="text" placeholder="Ссылка">
         </section>
 
     </main>
@@ -134,56 +153,81 @@
     <script>
         let type = document.getElementById('offers');
 
+        class DropDownList {
+            firstDelete = false;
 
-        let typePublication = '💼 - Вакансия/стажировка';
+            constructor(selectName) {
+                let select = document.getElementById(selectName);
 
-        const changeTypePublication = (e) => {
-            let buttonsEmotion = document.getElementsByClassName('emotion');
-            if (e.classList.contains("--choice") && !e.classList.contains("--active")) {
-                let elType = e.innerText;
-                for (let buttonEmotion of buttonsEmotion)
-                    if (buttonEmotion.innerText == elType)
-                        buttonEmotion.innerText = typePublication;
-                buttonsEmotion[0].innerHTML = elType;
-                typePublication = elType;
-
-                switch (typePublication) {
-                    case '💼 - Вакансия/стажировка':
-                        type.removeAttribute('class');
-                        type.classList.add('vacancy-internship');
+                this.selectName = selectName;
+                let elements = select.getElementsByClassName('--element');
+                this.heightElement = select.offsetHeight;
 
 
-                        break;
-                    case '🎟️ - Стажерская программа':
-                        type.removeAttribute('class');
-                        type.classList.add('internship-program');
-
-                        break;
-                    case '🎓 - Образовательная программа':
-                        type.removeAttribute('class');
-                        type.classList.add('educational-program');
+                let i = 0;
+                for (let element of elements) {
+                    element.classList.remove('--choice');
+                    element.style.height = `${this.heightElement}px`;
+                    element.style.transform = `translateY(-${this.heightElement * i++}px)`;
                 }
             }
-            if (e.classList.contains("--choice")) {
-                let i = 0;
-                for (let buttonEmotion of buttonsEmotion) {
-                    buttonEmotion.classList.remove('--choice');
-                    buttonEmotion.style.transform = `translateY(-${50 * i++}px)`;
+
+            update(e) {
+                let select = document.getElementById(this.selectName);
+                let elements = select.getElementsByClassName('--element');
+
+                if (elements[0].value == -1) {
+                    elements[0].style.display = 'none';
+                    elements[1].classList.add('--active')
+                    this.firstDelete = true;
                 }
-            } else {
-                let i = 0;
-                for (let buttonEmotion of buttonsEmotion) {
-                    buttonEmotion.classList.add('--choice');
-                    buttonEmotion.style.transform = `translateY(0px)`;
+
+                if (e.classList.contains("--choice") && !e.classList.contains("--active")) {
+                    let elementText = e.innerText;
+                    let elementValue = e.value;
+
+                    e.innerText = elements[+this.firstDelete].innerText;
+                    elements[+this.firstDelete].innerText = elementText;
+
+                    e.value = elements[+this.firstDelete].value;
+                    elements[+this.firstDelete].value = elementValue;
+
+                    if (this.selectName == 'type-publication')
+                        switch (elementValue) {
+                            case '0':
+                                type.removeAttribute('class');
+                                type.classList.add('vacancy-internship');
+
+                                break;
+                            case '1':
+                                type.removeAttribute('class');
+                                type.classList.add('internship-program');
+
+                                break;
+                            case '2':
+                                type.removeAttribute('class');
+                                type.classList.add('educational-program');
+                        }
+                }
+                if (e.classList.contains("--choice")) {
+                    let i = 0;
+                    for (let element of elements) {
+                        element.classList.remove('--choice');
+                        element.style.transform = `translateY(-${this.heightElement * i++ - 50 * this.firstDelete}px)`;
+                    }
+                } else {
+                    let i = 0;
+                    for (let element of elements) {
+                        element.classList.add('--choice');
+                        element.style.transform = `translateY(${0}px )`;
+                    }
                 }
             }
         }
 
-        let i = 0;
-        for (let buttonEmotion of document.getElementsByClassName('emotion')) {
-            buttonEmotion.classList.remove('--choice');
-            buttonEmotion.style.transform = `translateY(-${50 * i++}px)`;
-        }
+        let typePublication = new DropDownList('type-publication');
+
+        let level = new DropDownList('-level');
 
     </script>
 </body>
