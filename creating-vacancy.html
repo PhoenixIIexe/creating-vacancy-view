@@ -196,15 +196,16 @@
             <input class="text-block -company" type="text" placeholder="Компания">
             <input class="text-block -link" type="text" placeholder="Ссылка">
             <div id="format" class="--select">
-                <button class="--element --active" onclick="format.update(this)" value="-1">Формат</button>
-                <button class="--element" onclick="format.update(this)" value="0">Офис или гибрид</button>
+                <button class="--element --active" onclick="format.update(this)" value="0">Офис или гибрид</button>
                 <button class="--element" onclick="format.update(this)" value="1">Удаленка</button>
                 <button class="--element" onclick="format.update(this)" value="2">Удаленка или
                     офис</button>
             </div>
             <input id='office' class="text-block" type="text" placeholder="Адрес офиса" style="display: block;">
             <div id="type-employment" class="--select">
-                <button class="--element --active" onclick="typeEmployment.update(this)" value="0">фулл-тайм</button>
+                <button class="--element --active" onclick="typeEmployment.update(this)" value="-1">Тип
+                    занятости</button>
+                <button class="--element" onclick="typeEmployment.update(this)" value="0">фулл-тайм</button>
                 <button class="--element" onclick="typeEmployment.update(this)" value="1">парт-тайм</button>
                 <button class="--element" onclick="typeEmployment.update(this)" value="2">фулл или парт-тайм</button>
             </div>
