@@ -11,6 +11,7 @@
             margin: 0;
             padding: 0;
             min-width: 100%;
+            background-color: var(--tg-theme-bg-color);
         }
 
         .main {
@@ -24,26 +25,20 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 400px;
+            width: 100%;
             gap: 5px;
         }
 
 
 
         #type-publication {
-            position: relative;
-            z-index: 3;
-            height: 50px;
-            width: 100%;
+            z-index: 10;
         }
 
         #-level {
             display: none;
 
-            position: relative;
-            z-index: 2;
-            height: 50px;
-            width: 100%;
+            z-index: 9;
         }
 
         .text-block {
@@ -59,7 +54,8 @@
             align-items: center;
 
             border: none;
-            background: #D9D9D9;
+            color: var(--tg-theme-text-color);
+            background: var(--tg-theme-button-color);
             border-radius: 15px;
         }
 
@@ -67,13 +63,49 @@
             outline: none;
         }
 
-        .vacancy-internship #-level,
-        .vacancy-internship .-job-title {
-            display: block;
+        #format {
+            z-index: 8;
         }
 
+        #type-employment {
+            display: none;
+
+            z-index: 7;
+        }
+
+        #min-level {
+            display: none;
+
+            z-index: 7;
+        }
+
+        #is-paid,
+        #is-free {
+            display: none;
+
+            z-index: 6;
+        }
+
+        .description {
+            padding: 10px;
+            border: none;
+            outline: none;
+            width: calc(100% - 20px);
+            background-color: var(--tg-theme-button-color);
+            border-radius: 15px;
+            resize: vertical;
+        }
+
+        .vacancy-internship #-level,
+        .vacancy-internship .-job-title,
+        .vacancy-internship .-zp,
         .internship-program .-title,
-        .educational-program .-title {
+        .educational-program .-title,
+        .vacancy-internship #type-employment,
+        .internship-program #type-employment,
+        .educational-program #min-level,
+        .internship-program #is-paid,
+        .educational-program #is-free {
             display: block;
         }
 
@@ -87,6 +119,8 @@
         .--select {
             position: relative;
             z-index: 2;
+            height: 50px;
+            width: 100%;
         }
 
         .--element {
@@ -102,13 +136,14 @@
             border: none;
             background: none;
             border-radius: 15px;
+            color: var(--tg-theme-text-color);
 
             backdrop-filter: blur(10px);
             transition: all 0.3s ease-in;
         }
 
         .--element.--active {
-            background: #D9D9D9;
+            background: var(--tg-theme-button-color);
             opacity: 1;
         }
 
@@ -116,42 +151,87 @@
             opacity: 1;
         }
     </style>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 
 <body>
     <main class="main">
         <section id='offers' class="vacancy-internship">
             <div id="type-publication" class="--select">
-                <button class="emotion --element --active" onclick="typePublication.update(this)" value="0">💼
+                <button class="--element --active" onclick="typePublication.update(this)" value="0">💼
                     - Вакансия/стажировка</button>
-                <button class="emotion --element" onclick="typePublication.update(this)" value="1">🎟️ - Стажерская
+                <button class="--element" onclick="typePublication.update(this)" value="1">🎟️ - Стажерская
                     программа</button>
-                <button class="emotion --element" onclick="typePublication.update(this)" value="2">🎓 -
+                <button class="--element" onclick="typePublication.update(this)" value="2">🎓 -
                     Образовательная
                     программа</button>
             </div>
+
+            <div style="height: 5px"></div>
+
             <div id="-level" class="--select">
-                <button class="-level__element --element --active" onclick="level.update(this)"
-                    value="-1">Уровень</button>
-                <button class="-level__element --element" onclick="level.update(this)" value="0">Assistant</button>
-                <button class="-level__element --element" onclick="level.update(this)" value="1">Intern</button>
-                <button class="-level__element --element" onclick="level.update(this)" value="2">Junior</button>
-                <button class="-level__element --element" onclick="level.update(this)" value="3">Middle</button>
-                <button class="-level__element --element" onclick="level.update(this)" value="4">Senior</button>
-                <button class="-level__element --element" onclick="level.update(this)" value="5">Lead</button>
-                <button class="-level__element --element" onclick="level.update(this)" value="6">Head</button>
-                <button class="-level__element --element" onclick="level.update(this)" value="7">Chief</button>
+                <button class="--element --active" onclick="level.update(this)" value="-1">Уровень</button>
+                <button class="--element" onclick="level.update(this)" value="0">Assistant</button>
+                <button class="--element" onclick="level.update(this)" value="1">Intern</button>
+                <button class="--element" onclick="level.update(this)" value="2">Junior</button>
+                <button class="--element" onclick="level.update(this)" value="3">Middle</button>
+                <button class="--element" onclick="level.update(this)" value="4">Senior</button>
+                <button class="--element" onclick="level.update(this)" value="5">Lead</button>
+                <button class="--element" onclick="level.update(this)" value="6">Head</button>
+                <button class="--element" onclick="level.update(this)" value="7">Chief</button>
             </div>
             <input class="text-block -job-title" type="text" placeholder="Название вакансии">
             <input class="text-block -title" type="text" placeholder="Название">
             <input class="text-block -company" type="text" placeholder="Компания">
             <input class="text-block -link" type="text" placeholder="Ссылка">
+            <div id="format" class="--select">
+                <button class="--element --active" onclick="format.update(this)" value="-1">Формат</button>
+                <button class="--element" onclick="format.update(this)" value="0">Офис или гибрид</button>
+                <button class="--element" onclick="format.update(this)" value="1">Удаленка</button>
+                <button class="--element" onclick="format.update(this)" value="2">Удаленка или
+                    офис</button>
+            </div>
+            <input id='office' class="text-block" type="text" placeholder="Адрес офиса" style="display: block;">
+            <div id="type-employment" class="--select">
+                <button class="--element --active" onclick="typeEmployment.update(this)" value="-1">Тип
+                    занятости</button>
+                <button class="--element" onclick="typeEmployment.update(this)" value="0">фулл-тайм</button>
+                <button class="--element" onclick="typeEmployment.update(this)" value="1">парт-тайм</button>
+                <button class="--element" onclick="typeEmployment.update(this)" value="2">фулл или парт-тайм</button>
+            </div>
+            <div id="min-level" class="--select">
+                <button class="--element --active" onclick="minLevel.update(this)" value="-1">Минимальный
+                    Уровень</button>
+                <button class="--element" onclick="minLevel.update(this)" value="0">Assistant</button>
+                <button class="--element" onclick="minLevel.update(this)" value="1">Intern</button>
+                <button class="--element" onclick="minLevel.update(this)" value="2">Junior</button>
+                <button class="--element" onclick="minLevel.update(this)" value="3">Middle</button>
+                <button class="--element" onclick="minLevel.update(this)" value="4">Senior</button>
+                <button class="--element" onclick="minLevel.update(this)" value="5">Lead</button>
+                <button class="--element" onclick="minLevel.update(this)" value="6">Head</button>
+                <button class="--element" onclick="minLevel.update(this)" value="7">Chief</button>
+            </div>
+            <input class="text-block -zp" type="text" placeholder="ЗП">
+            <div id="is-paid" class="--select">
+                <button class="--element --active" onclick="isPaid.update(this)" value="0">оплачивается</button>
+                <button class="--element" onclick="isPaid.update(this)" value="1">не оплачивается</button>
+            </div>
+            <div id="is-free" class="--select">
+                <button class="--element --active" onclick="isFree.update(this)" value="0">бесплатно</button>
+                <button class="--element" onclick="isFree.update(this)" value="1">платно</button>
+            </div>
+
+            <div style="height: 10px"></div>
+
+            <textarea class="description" placeholder="Описание"></textarea>
         </section>
 
     </main>
 
     <script>
         let type = document.getElementById('offers');
+        let address = document.getElementById('office');
 
         class DropDownList {
             firstDelete = false;
@@ -161,7 +241,7 @@
 
                 this.selectName = selectName;
                 let elements = select.getElementsByClassName('--element');
-                this.heightElement = select.offsetHeight;
+                this.heightElement = 50;
 
 
                 let i = 0;
@@ -208,6 +288,12 @@
                                 type.removeAttribute('class');
                                 type.classList.add('educational-program');
                         }
+
+                    if (this.selectName == 'format')
+                        if (elementValue == '0')
+                            address.style.display = 'block';
+                        else
+                            address.style.display = 'none';
                 }
                 if (e.classList.contains("--choice")) {
                     let i = 0;
@@ -226,8 +312,12 @@
         }
 
         let typePublication = new DropDownList('type-publication');
-
         let level = new DropDownList('-level');
+        let format = new DropDownList('format');
+        let typeEmployment = new DropDownList('type-employment');
+        let minLevel = new DropDownList('min-level');
+        let isPaid = new DropDownList('is-paid');
+        let isFree = new DropDownList('is-free');
 
     </script>
 </body>
