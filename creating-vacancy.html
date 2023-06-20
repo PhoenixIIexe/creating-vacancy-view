@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .offers__title {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .type-publication {
+            height: 50px;
+        }
+
+        .emotion {
+            position: relative;
+            font-size: 20px;
+
+            display: flex;
+            opacity: 0;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            z-index: 2;
+
+            border: none;
+            background: none;
+            border-radius: 15px;
+
+            transition: all 0.3s ease-in;
+        }
+
+        .emotion.--active {
+            background: #D9D9D9;
+            opacity: 1;
+        }
+
+        .emotion.--choice {
+            opacity: 1;
+        }
+
+        .link {
+            box-sizing: border-box;
+
+            height: 50px;
+        }
+
+        .link__block {
+            display: none;
+            padding: 10px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            height: 50px;
+            justify-content: center;
+            align-items: center;
+
+            border: none;
+            background: #D9D9D9;
+            border-radius: 15px;
+        }
+
+        .link__block:focus-visible {
+            outline: none;
+        }
+
+        .vacancy-internship .link__block.level {
+            display: flex;
+        }
+
+        .vacancy-internship .link__block.job-title {
+            display: flex;
+        }
+
+        .internship-program .link__block.title,
+        .educational-program .link__block.title {
+            display: flex;
+        }
+
+        .link__block.company {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="main">
+        <section id='offers' class="vacancy-internship">
+            <div class="offers__title">
+                <div class="type-publication">
+                    <button class="emotion --active" onclick="changeTypePublication(this)">💼 -
+                        Вакансия/стажировка</button>
+                    <button class="emotion" onclick="changeTypePublication(this)">🎟️ - Стажерская программа</button>
+                    <button class="emotion" onclick="changeTypePublication(this)">🎓 - Образовательная
+                        программа</button>
+                </div>
+                <div class="link">
+                    <input class="link__block level" type="text" placeholder="Уровень">
+                    <input class="link__block job-title" type="text" placeholder="Название вакансии">
+                    <input class="link__block title" type="text" placeholder="Название">
+                    <input class="link__block company" type="text" placeholder="Компания">
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        let type = document.getElementById('offers');
+
+
+        let typePublication = '💼 - Вакансия/стажировка';
+
+        const changeTypePublication = (e) => {
+            let buttonsEmotion = document.getElementsByClassName('emotion');
+            if (e.classList.contains("--choice") && !e.classList.contains("--active")) {
+                let elType = e.innerText;
+                for (let buttonEmotion of buttonsEmotion)
+                    if (buttonEmotion.innerText == elType)
+                        buttonEmotion.innerText = typePublication;
+                buttonsEmotion[0].innerHTML = elType;
+                typePublication = elType;
+
+                switch (typePublication) {
+                    case '💼 - Вакансия/стажировка':
+                        type.removeAttribute('class');
+                        type.classList.add('vacancy-internship');
+
+
+                        break;
+                    case '🎟️ - Стажерская программа':
+                        type.removeAttribute('class');
+                        type.classList.add('internship-program');
+
+                        break;
+                    case '🎓 - Образовательная программа':
+                        type.removeAttribute('class');
+                        type.classList.add('educational-program');
+                }
+            }
+            if (e.classList.contains("--choice")) {
+                let i = 0;
+                for (let buttonEmotion of buttonsEmotion) {
+                    buttonEmotion.classList.remove('--choice');
+                    buttonEmotion.style.transform = `translateY(-${50 * i++}px)`;
+                }
+            } else {
+                let i = 0;
+                for (let buttonEmotion of buttonsEmotion) {
+                    buttonEmotion.classList.add('--choice');
+                    buttonEmotion.style.transform = `translateY(0px)`;
+                }
+            }
+        }
+
+        let i = 0;
+        for (let buttonEmotion of document.getElementsByClassName('emotion')) {
+            buttonEmotion.classList.remove('--choice');
+            buttonEmotion.style.transform = `translateY(-${50 * i++}px)`;
+        }
+
+    </script>
+</body>
+
+</html>
